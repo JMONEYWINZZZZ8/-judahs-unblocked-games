@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Judah's Unblocked Games</title>
+<style>
+:root{--bg:#0b1020;--panel:#121a30;--panel2:#19233e;--text:#f5f7ff;--muted:#9da8c7;--accent:#7c5cff;--gold:#ffd54a}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Arial;background:var(--bg);color:var(--text);transition:.2s}
+header{position:sticky;top:0;z-index:5;background:#0b1020eF;border-bottom:1px solid #263252;backdrop-filter:blur(10px)}
+nav{max-width:1200px;margin:auto;padding:16px;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.logo{font-size:22px;font-weight:900}.logo span{color:var(--accent)}
+button,input,select{font:inherit}button{border:0;border-radius:12px;padding:10px 14px;background:var(--panel2);color:var(--text);cursor:pointer}button:hover{filter:brightness(1.2)}
+.spacer{flex:1}.coins{color:var(--gold);font-weight:800}.hero{max-width:1200px;margin:30px auto 10px;padding:28px 16px}
+.hero h1{font-size:clamp(36px,7vw,72px);margin:0}.hero p{color:var(--muted);font-size:18px}
+.controls{max-width:1200px;margin:auto;padding:10px 16px;display:flex;gap:10px;flex-wrap:wrap}
+.search{flex:1;min-width:220px;padding:12px;border-radius:12px;border:1px solid #2b385b;background:var(--panel);color:white}
+.grid{max-width:1200px;margin:18px auto;padding:0 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+.card{background:var(--panel);border:1px solid #263252;border-radius:18px;overflow:hidden;position:relative}.thumb{height:125px;display:grid;place-items:center;font-size:48px;background:linear-gradient(135deg,#283b70,#55358e)}
+.card h3{margin:12px 14px 4px}.card p{margin:0 14px 14px;color:var(--muted)}.fav{position:absolute;right:9px;top:9px;background:#10172bCC;border-radius:50%;padding:8px}.fav.active{color:#ff5b8a}
+.card .play{margin:0 14px 14px;width:calc(100% - 28px)}
+.panel{max-width:1200px;margin:25px auto;padding:20px 16px}.hidden{display:none}
+.avatar{width:120px;height:120px;border-radius:50%;background:#ffd1b8;display:grid;place-items:center;font-size:60px;margin:10px auto;border:5px solid var(--accent)}
+.shop{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}.item{background:var(--panel);padding:15px;border-radius:14px;text-align:center}.item .emoji{font-size:42px}
+.modal{position:fixed;inset:0;background:#0009;display:none;place-items:center;z-index:10}.modal.show{display:grid}.modalbox{background:var(--panel);padding:24px;border-radius:20px;width:min(420px,92vw)}
+footer{text-align:center;color:var(--muted);padding:40px}
+</style></head>
+<body>
+<header><nav>
+<div class="logo">JUDAH'S <span>UNBLOCKED GAMES</span></div>
+<button onclick="show('home')">Home</button><button onclick="show('favorites')">❤️ Favorites</button><button onclick="show('avatar')">👤 Avatar</button><button onclick="show('shop')">🛍️ Shop</button><button onclick="show('settings')">⚙️ Customize</button>
+<div class="spacer"></div><div class="coins">🪙 <span id="coins">250</span></div><button onclick="show('admin')">Admin</button>
+</nav></header>
+
+<main id="home">
+<section class="hero"><h1>Play. Customize. Have fun.</h1><p>Your own game hub with favorites, coins, avatars, and customizable backgrounds.</p></section>
+<div class="controls"><input id="search" class="search" placeholder="🔎 Search games..." oninput="render()">
+<button onclick="setCat('All')">All</button><button onclick="setCat('Racing')">🏎️ Racing</button><button onclick="setCat('Arcade')">🕹️ Arcade</button><button onclick="setCat('Puzzle')">🧩 Puzzle</button><button onclick="setCat('Sports')">🏀 Sports</button></div>
+<div id="grid" class="grid"></div>
+</main>
+
+<section id="favorites" class="panel hidden"><h2>❤️ My Favorites</h2><div id="favgrid" class="grid"></div></section>
+<section id="avatar" class="panel hidden"><h2>👤 My Avatar</h2><div class="avatar" id="avatarFace">😎</div><div style="text-align:center"><button onclick="changeAvatar('😎')">😎</button> <button onclick="changeAvatar('🤓')">🤓</button> <button onclick="changeAvatar('🥳')">🥳</button> <button onclick="changeAvatar('😈')">😈</button></div></section>
+<section id="shop" class="panel hidden"><h2>🛍️ Avatar Shop</h2><p>Spend your Judah Coins on outfits and accessories.</p><div class="shop" id="shopgrid"></div></section>
+<section id="settings" class="panel hidden"><h2>🎨 Customize Home Screen</h2><p>Choose a background:</p><div class="shop">
+<div class="item"><button onclick="bg('#0b1020')">🌌 Space</button></div><div class="item"><button onclick="bg('#142b24')">🌲 Forest</button></div><div class="item"><button onclick="bg('#32142b')">🌃 Neon</button></div><div class="item"><button onclick="bg('#222')">⬛ Dark</button></div>
+</div></section>
+<section id="admin" class="panel hidden"><h2>🔐 Admin Controls</h2><p>Enter the admin code to unlock site controls.</p><input id="admincode" class="search" type="password" placeholder="Admin code"><button onclick="loginAdmin()">Unlock</button><div id="admincontrols" class="hidden"><hr><button onclick="coins(500)">➕ Add 500 Coins</button> <button onclick="coins(-100)">➖ Remove 100 Coins</button><p>Prototype admin panel: game/content management can be connected to a secure server when the site is published.</p></div></section>
+<footer>Judah's Unblocked Games • Prototype</footer>
+
+<script>
+const games=[
+{id:1,n:"Neon Racer",c:"Racing",e:"🏎️"},{id:2,n:"Block Smash",c:"Arcade",e:"🧱"},{id:3,n:"Brain Blocks",c:"Puzzle",e:"🧩"},{id:4,n:"Hoop Stars",c:"Sports",e:"🏀"},{id:5,n:"Space Blaster",c:"Arcade",e:"🚀"},{id:6,n:"Drift Rush",c:"Racing",e:"🏁"},{id:7,n:"Mini Golf",c:"Sports",e:"⛳"},{id:8,n:"2048 Classic",c:"Puzzle",e:"🔢"}];
+let cat='All', favs=JSON.parse(localStorage.favs||'[]'), coin=+(localStorage.coins||250);
+const outfits=[["🧢","Cool Cap",100],["👕","Street Shirt",150],["🥽","Gamer Goggles",200],["👑","Crown",500]];
+function save(){localStorage.favs=JSON.stringify(favs);localStorage.coins=coin;document.getElementById('coins').textContent=coin}
+function setCat(x){cat=x;render()} function isFav(id){return favs.includes(id)}
+function card(g){return `<article class="card"><button class="fav ${isFav(g.id)?'active':''}" onclick="toggleFav(${g.id})">${isFav(g.id)?'♥':'♡'}</button><div class="thumb">${g.e}</div><h3>${g.n}</h3><p>${g.c}</p><button class="play" onclick="play(${g.id})">▶ Play</button></article>`}
+function render(){let q=document.getElementById('search')?.value.toLowerCase()||'';let a=games.filter(g=>(cat==='All'||g.c===cat)&&g.n.toLowerCase().includes(q));document.getElementById('grid').innerHTML=a.map(card).join('');document.getElementById('favgrid').innerHTML=games.filter(g=>favs.includes(g.id)).map(card).join('')||'<p>No favorites yet. Tap ♡ on a game to add one.</p>'}
+function toggleFav(id){favs=favs.includes(id)?favs.filter(x=>x!==id):[...favs,id];save();render()}
+function play(id){coin+=10;save();alert('Game opened! +10 Judah Coins 🎉\\n(Connect this button to a licensed/allowed game when publishing.)')}
+function show(id){document.querySelectorAll('main,section.panel').forEach(x=>x.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');if(id==='favorites')render();if(id==='shop')renderShop()}
+function changeAvatar(x){document.getElementById('avatarFace').textContent=x;localStorage.avatar=x}
+function bg(x){document.body.style.background=x;localStorage.bg=x}
+function renderShop(){document.getElementById('shopgrid').innerHTML=outfits.map(o=>`<div class="item"><div class="emoji">${o[0]}</div><b>${o[1]}</b><p>🪙 ${o[2]}</p><button onclick="buy(${o[2]},'${o[0]}')">Buy</button></div>`).join('')}
+function buy(cost,item){if(coin>=cost){coin-=cost;save();alert('Bought '+item+'! 🎉')}else alert('Not enough Judah Coins!')}
+function coins(n){coin=Math.max(0,coin+n);save()}
+function loginAdmin(){if(document.getElementById('admincode').value==='JMONEY'){document.getElementById('admincontrols').classList.remove('hidden');alert('Admin mode unlocked 🔓')}else alert('Incorrect code')}
+document.body.style.background=localStorage.bg||'#0b1020';document.getElementById('avatarFace').textContent=localStorage.avatar||'😎';save();render();
+</script></body></html>
