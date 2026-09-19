@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Judah's Unblocked Games</title>
+<style>
+:root{--bg:#0b1020;--panel:#121a30;--panel2:#19233e;--text:#f5f7ff;--muted:#9da8c7;--accent:#7c5cff;--gold:#ffd54a}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Arial;background:var(--bg);color:var(--text)}
+header{position:sticky;top:0;z-index:5;background:#0b1020ee;border-bottom:1px solid #263252;backdrop-filter:blur(10px)}
+nav{max-width:1200px;margin:auto;padding:14px 16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.logo{font-size:21px;font-weight:900}.logo span{color:var(--accent)}button,input,select{font:inherit}button{border:0;border-radius:12px;padding:10px 14px;background:var(--panel2);color:var(--text);cursor:pointer}button:hover{filter:brightness(1.2)}button.primary{background:var(--accent)}button.danger{background:#8d2941}.spacer{flex:1}.coins{color:var(--gold);font-weight:800}
+.hero{max-width:1200px;margin:26px auto 8px;padding:28px 16px}.hero h1{font-size:clamp(36px,7vw,72px);margin:0}.hero p{color:var(--muted);font-size:18px}
+.controls{max-width:1200px;margin:auto;padding:10px 16px;display:flex;gap:10px;flex-wrap:wrap}.search{flex:1;min-width:210px;padding:12px;border-radius:12px;border:1px solid #2b385b;background:var(--panel);color:white}
+.grid{max-width:1200px;margin:18px auto;padding:0 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+.card{background:var(--panel);border:1px solid #263252;border-radius:18px;overflow:hidden;position:relative}.thumb{height:125px;display:grid;place-items:center;font-size:48px;background:linear-gradient(135deg,#283b70,#55358e)}.card h3{margin:12px 14px 4px}.card p{margin:0 14px 14px;color:var(--muted)}.fav{position:absolute;right:9px;top:9px;background:#10172bcc;border-radius:50%;padding:8px}.fav.active{color:#ff5b8a}.card .play{margin:0 14px 14px;width:calc(100% - 28px)}
+.panel{max-width:1200px;margin:25px auto;padding:20px 16px}.hidden{display:none}.avatar{width:120px;height:120px;border-radius:50%;background:#ffd1b8;display:grid;place-items:center;font-size:60px;margin:10px auto;border:5px solid var(--accent)}
+.shop{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}.item{background:var(--panel);padding:15px;border-radius:14px;text-align:center}.item .emoji{font-size:42px}
+.modal{position:fixed;inset:0;background:#000b;display:none;place-items:center;z-index:20}.modal.show{display:grid}.modalbox{background:var(--panel);padding:20px;border-radius:20px;width:min(650px,94vw);max-height:90vh;overflow:auto}.gamearea{min-height:300px;display:grid;place-items:center;text-align:center}.big{font-size:72px}.score{font-size:28px;font-weight:800;margin:10px}.tiles{display:grid;grid-template-columns:repeat(4,65px);gap:6px}.tile{width:65px;height:65px;display:grid;place-items:center;background:#283452;border-radius:8px;font-weight:900;font-size:22px}
+.adminbox{background:#0d1428;border:1px solid #304064;border-radius:16px;padding:15px;margin-top:15px}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:9px 0}.row input,.row select{padding:9px;border-radius:10px;border:1px solid #344364;background:#111a31;color:white}
+footer{text-align:center;color:var(--muted);padding:40px}
+</style></head>
+<body>
+<header><nav>
+<div class="logo">JUDAH'S <span>UNBLOCKED GAMES</span></div>
+<button onclick="show('home')">Home</button><button onclick="show('favorites')">❤️ Favorites</button><button onclick="show('avatar')">👤 Avatar</button><button onclick="show('shop')">🛍️ Shop</button><button onclick="show('settings')">🎨 Customize</button>
+<div class="spacer"></div><div class="coins">🪙 <span id="coins">250</span></div><button onclick="show('admin')">Admin</button>
+</nav></header>
+
+<main id="home">
+<section class="hero"><h1>Play. Customize. Have fun.</h1><p>Real mini-games, favorites, Judah Coins, avatars, backgrounds, and an admin panel.</p></section>
+<div class="controls"><input id="search" class="search" placeholder="🔎 Search games..." oninput="render()">
+<button onclick="setCat('All')">All</button><button onclick="setCat('Racing')">🏎️ Racing</button><button onclick="setCat('Arcade')">🕹️ Arcade</button><button onclick="setCat('Puzzle')">🧩 Puzzle</button><button onclick="setCat('Sports')">🏀 Sports</button><button onclick="setCat('Skill')">🎯 Skill</button></div>
+<div id="grid" class="grid"></div>
+</main>
+
+<section id="favorites" class="panel hidden"><h2>❤️ My Favorites</h2><div id="favgrid" class="grid"></div></section>
+<section id="avatar" class="panel hidden"><h2>👤 My Avatar</h2><div class="avatar" id="avatarFace">😎</div><div style="text-align:center"><button onclick="changeAvatar('😎')">😎</button> <button onclick="changeAvatar('🤓')">🤓</button> <button onclick="changeAvatar('🥳')">🥳</button> <button onclick="changeAvatar('😈')">😈</button> <button onclick="changeAvatar('🤖')">🤖</button></div></section>
+
+<section id="shop" class="panel hidden"><h2>🛍️ Avatar Shop</h2><p>Spend Judah Coins on accessories.</p><div class="shop" id="shopgrid"></div></section>
+<section id="settings" class="panel hidden"><h2>🎨 Customize Home Screen</h2><div class="shop">
+<div class="item"><button onclick="bg('#0b1020')">🌌 Space</button></div><div class="item"><button onclick="bg('#142b24')">🌲 Forest</button></div><div class="item"><button onclick="bg('#32142b')">🌃 Neon</button></div><div class="item"><button onclick="bg('#222')">⬛ Dark</button></div>
+</div></section>
+
+<section id="admin" class="panel hidden"><h2>🔐 Admin Controls</h2>
+<p>Enter the admin code to unlock controls.</p><div class="row"><input id="admincode" type="password" placeholder="Admin code"><button class="primary" onclick="loginAdmin()">Unlock</button></div>
+<div id="admincontrols" class="hidden">
+<div class="adminbox"><h3>🔒 Admin session</h3><p id="adminstatus">Unlocked</p><button class="danger" onclick="lockAdmin()">🔒 Lock Admin Controls</button></div>
+<div class="adminbox"><h3>🪙 Coins</h3><div class="row"><button onclick="coins(500)">➕ 500</button><button onclick="coins(-100)">➖ 100</button><button onclick="setCoins(0)">Reset Coins</button></div></div>
+<div class="adminbox"><h3>🎮 Game management</h3><div class="row"><button onclick="toggleHiddenGame()">👁️ Hide/Show selected game</button><select id="gameSelect"></select></div>
+<div class="row"><input id="newName" placeholder="Game name"><select id="newCat"><option>Arcade</option><option>Racing</option><option>Puzzle</option><option>Sports</option><option>Skill</option></select><input id="newEmoji" placeholder="Emoji" maxlength="2"><button onclick="addGame()">➕ Add game</button></div>
+<div class="row"><button onclick="removeSelectedGame()" class="danger">🗑️ Remove selected game</button><button onclick="resetGames()">↩️ Restore built-in games</button></div></div>
+<div class="adminbox"><h3>⭐ Featured</h3><div class="row"><select id="featuredSelect"></select><button onclick="setFeatured()">Set Featured</button><button onclick="clearFeatured()">Clear Featured</button></div><p id="featuredText"></p></div>
+<div class="adminbox"><h3>🎨 Site controls</h3><div class="row"><button onclick="bg('#0b1020')">Space</button><button onclick="bg('#142b24')">Forest</button><button onclick="bg('#32142b')">Neon</button><button onclick="bg('#222')">Dark</button></div></div>
+<div class="adminbox"><h3>📊 Basic stats</h3><p id="stats"></p></div>
+</div></section>
+
+<div id="modal" class="modal"><div class="modalbox"><div class="row"><h2 id="gameTitle" style="margin-right:auto">Game</h2><button onclick="closeGame()">✕</button></div><div id="gameArea" class="gamearea"></div></div></div>
+<footer>Judah's Unblocked Games • V2</footer>
+
+<script>
+const builtIn=[
+{id:1,n:"Neon Racer",c:"Racing",e:"🏎️",type:"reaction"},{id:2,n:"Block Smash",c:"Arcade",e:"🧱",type:"clicker"},{id:3,n:"Brain Blocks",c:"Puzzle",e:"🧩",type:"memory"},{id:4,n:"Hoop Stars",c:"Sports",e:"🏀",type:"clicker"},{id:5,n:"Space Blaster",c:"Arcade",e:"🚀",type:"clicker"},{id:6,n:"Drift Rush",c:"Racing",e:"🏁",type:"reaction"},{id:7,n:"Mini Golf",c:"Sports",e:"⛳",type:"clicker"},{id:8,n:"2048 Classic",c:"Puzzle",e:"🔢",type:"2048"},{id:9,n:"Target Tap",c:"Skill",e:"🎯",type:"reaction"},{id:10,n:"Emoji Match",c:"Puzzle",e:"🧠",type:"memory"}];
+let games=JSON.parse(localStorage.juGames||'null')||builtIn, cat='All';
+let favs=JSON.parse(localStorage.juFavs||'[]'), coin=+(localStorage.juCoins||250), hidden=JSON.parse(localStorage.juHidden||'[]');
+let adminUnlocked=false, featured=+(localStorage.juFeatured||0), playCount=+(localStorage.juPlays||0), reactionTimer=null;
+const outfits=[["🧢","Cool Cap",100],["👕","Street Shirt",150],["🥽","Gamer Goggles",200],["👑","Crown",500],["🦸","Hero Outfit",350],["🤖","Robot Gear",450]];
+function persist(){localStorage.juGames=JSON.stringify(games);localStorage.juFavs=JSON.stringify(favs);localStorage.juCoins=coin;localStorage.juHidden=JSON.stringify(hidden);localStorage.juFeatured=featured;localStorage.juPlays=playCount;document.getElementById('coins').textContent=coin}
+function visibleGames(){return games.filter(g=>!hidden.includes(g.id))}
+function setCat(x){cat=x;render()}
+function isFav(id){return favs.includes(id)}
+function card(g){let star=g.id===featured?' ⭐':'';return `<article class="card"><button class="fav ${isFav(g.id)?'active':''}" onclick="toggleFav(${g.id})">${isFav(g.id)?'♥':'♡'}</button><div class="thumb">${g.e}</div><h3>${g.n}${star}</h3><p>${g.c}</p><button class="play primary" onclick="play(${g.id})">▶ Play</button></article>`}
+function render(){let q=(document.getElementById('search')?.value||'').toLowerCase();let a=visibleGames().filter(g=>(cat==='All'||g.c===cat)&&g.n.toLowerCase().includes(q));document.getElementById('grid').innerHTML=a.map(card).join('')||'<p>No games found.</p>';document.getElementById('favgrid').innerHTML=visibleGames().filter(g=>favs.includes(g.id)).map(card).join('')||'<p>No favorites yet.</p>';refreshAdminLists()}
+function toggleFav(id){favs=favs.includes(id)?favs.filter(x=>x!==id):[...favs,id];persist();render()}
+function show(id){document.querySelectorAll('main,section.panel').forEach(x=>x.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');if(id==='favorites')render();if(id==='shop')renderShop();if(id==='admin')refreshAdminLists()}
+function changeAvatar(x){document.getElementById('avatarFace').textContent=x;localStorage.juAvatar=x}
+function bg(x){document.body.style.background=x;localStorage.juBg=x}
+function renderShop(){document.getElementById('shopgrid').innerHTML=outfits.map(o=>`<div class="item"><div class="emoji">${o[0]}</div><b>${o[1]}</b><p>🪙 ${o[2]}</p><button onclick="buy(${o[2]},'${o[0]}')">Buy</button></div>`).join('')}
+function buy(cost,item){if(coin>=cost){coin-=cost;persist();alert('Bought '+item+'! 🎉')}else alert('Not enough Judah Coins!')}
+function coins(n){if(!adminUnlocked)return;coin=Math.max(0,coin+n);persist()}
+function setCoins(n){if(!adminUnlocked)return;coin=Math.max(0,n);persist()}
+function loginAdmin(){if(document.getElementById('admincode').value==='JMONEY'){adminUnlocked=true;document.getElementById('admincontrols').classList.remove('hidden');document.getElementById('adminstatus').textContent='Unlocked 🔓';document.getElementById('admincode').value='';refreshAdminLists();}else alert('Incorrect code')}
+function lockAdmin(){adminUnlocked=false;document.getElementById('admincontrols').classList.add('hidden');document.getElementById('adminstatus').textContent='Locked 🔒'}
+function refreshAdminLists(){if(!document.getElementById('gameSelect'))return;let opts=games.map(g=>`<option value="${g.id}">${g.e} ${g.n}${hidden.includes(g.id)?' (hidden)':''}</option>`).join('');document.getElementById('gameSelect').innerHTML=opts;document.getElementById('featuredSelect').innerHTML=opts;document.getElementById('featuredSelect').value=featured||games[0]?.id||'';document.getElementById('featuredText').textContent=featured?'Featured: '+(games.find(g=>g.id===featured)?.n||'None'):'No featured game';document.getElementById('stats').textContent=`Games: ${games.length} • Hidden: ${hidden.length} • Favorites: ${favs.length} • Games played: ${playCount}`;document.getElementById('gameSelect').value=games[0]?.id||''}
+function toggleHiddenGame(){if(!adminUnlocked)return;let id=+document.getElementById('gameSelect').value;hidden=hidden.includes(id)?hidden.filter(x=>x!==id):[...hidden,id];persist();render()}
+function addGame(){if(!adminUnlocked)return;let n=document.getElementById('newName').value.trim();if(!n)return alert('Enter a game name.');let id=Date.now();games.push({id,n,c:document.getElementById('newCat').value,e:document.getElementById('newEmoji').value||'🎮',type:'clicker'});document.getElementById('newName').value='';document.getElementById('newEmoji').value='';persist();render()}
+function removeSelectedGame(){if(!adminUnlocked)return;let id=+document.getElementById('gameSelect').value;games=games.filter(g=>g.id!==id);favs=favs.filter(x=>x!==id);hidden=hidden.filter(x=>x!==id);if(featured===id)featured=0;persist();render()}
+function resetGames(){if(!adminUnlocked)return;games=[...builtIn];hidden=[];featured=0;persist();render()}
+function setFeatured(){if(!adminUnlocked)return;featured=+document.getElementById('featuredSelect').value;persist();render()}
+function clearFeatured(){if(!adminUnlocked)return;featured=0;persist();render()}
+function play(id){let g=games.find(x=>x.id===id);if(!g)return;playCount++;persist();document.getElementById('gameTitle').textContent=g.e+' '+g.n;document.getElementById('modal').classList.add('show');startGame(g)}
+function closeGame(){document.getElementById('modal').classList.remove('show');clearTimeout(reactionTimer)}
+function award(n){coin+=n;persist()}
+function startGame(g){let a=document.getElementById('gameArea');if(g.type==='clicker'){let score=0;a.innerHTML=`<div><div class="big">${g.e}</div><div class="score">Score: <span id="gscore">0</span></div><button class="primary" style="font-size:22px;padding:18px 30px" id="tap">TAP!</button><p>Get as many taps as you can in 10 seconds.</p><p id="timer">10</p></div>`;let left=10;let t=setInterval(()=>{left--;document.getElementById('timer').textContent=left;if(left<=0){clearInterval(t);document.getElementById('tap').disabled=true;award(score);document.getElementById('gameArea').insertAdjacentHTML('beforeend',`<p>Finished! +${score} 🪙</p>`)}},1000);document.getElementById('tap').onclick=()=>{score++;document.getElementById('gscore').textContent=score}}else if(g.type==='reaction'){a.innerHTML=`<div><div class="big">🎯</div><h3>Wait for GO!</h3><button id="react" class="primary" style="font-size:24px;padding:18px 30px">WAIT...</button><p id="rmsg"></p></div>`;let btn=document.getElementById('react');let delay=1200+Math.random()*3000;reactionTimer=setTimeout(()=>{btn.textContent='GO! TAP!';btn.dataset.go='1';let start=performance.now();btn.onclick=()=>{if(btn.dataset.go==='1'){let ms=Math.round(performance.now()-start);let reward=Math.max(5,Math.round(100-ms/10));award(reward);document.getElementById('rmsg').textContent=`${ms} ms! +${reward} 🪙`;btn.disabled=true}}},delay);btn.onclick=()=>{if(!btn.dataset.go)document.getElementById('rmsg').textContent='Too early! Close and try again.'}}else if(g.type==='memory'){let seq=[],user=[],round=0;const symbols=['🍎','🍋','🍇','⭐'];function next(){round++;user=[];seq.push(Math.floor(Math.random()*4));a.innerHTML=`<div><h3>Round ${round}</h3><p>Watch the sequence.</p><div id="mem" class="tiles"></div></div>`;let m=document.getElementById('mem');symbols.forEach((s,i)=>{let b=document.createElement('button');b.className='tile';b.textContent=s;b.onclick=()=>click(i);m.appendChild(b)});seq.forEach((v,j)=>setTimeout(()=>{m.children[v].style.filter='brightness(2)';setTimeout(()=>m.children[v].style.filter='',250)},j*500));setTimeout(()=>{m.dataset.ready='1'},seq.length*500+300)}function click(i){let m=document.getElementById('mem');if(m.dataset.ready!=='1')return;user.push(i);if(user[user.length-1]!==seq[user.length-1]){award(Math.max(0,round-1)*5);a.insertAdjacentHTML('beforeend',`<p>Game over! You reached round ${round}. 🪙 +${Math.max(0,round-1)*5}</p><button onclick="closeGame()">Done</button>`);m.dataset.ready='0';return}if(user.length===seq.length){m.dataset.ready='0';award(5);setTimeout(next,500)}}next()}else if(g.type==='2048'){start2048(a)}}
+function start2048(a){let board=Array(16).fill(0),score=0;function spawn(){let z=board.map((v,i)=>v?null:i).filter(x=>x!==null);if(z.length)board[z[Math.floor(Math.random()*z.length)]]=2}function draw(){a.innerHTML=`<div><div class="score">2048 Score: ${score}</div><div class="tiles">${board.map(v=>`<div class="tile">${v||''}</div>`).join('')}</div><p>Use arrow keys, swipe isn't required. <button onclick="closeGame()">Close</button></p></div>`}function move(dir){let old=board.join(',');let lines=[];if(dir==='left'||dir==='right'){for(let r=0;r<4;r++)lines.push(board.slice(r*4,r*4+4))}else{for(let c=0;c<4;c++)lines.push([board[c],board[c+4],board[c+8],board[c+12]])}lines=lines.map(line=>{if(dir==='right'||dir==='down')line.reverse();line=line.filter(Boolean);for(let i=0;i<line.length-1;i++)if(line[i]===line[i+1]){line[i]*=2;score+=line[i];line.splice(i+1,1)}while(line.length<4)line.push(0);if(dir==='right'||dir==='down')line.reverse();return line});if(dir==='left'||dir==='right')lines.forEach((l,r)=>l.forEach((v,c)=>board[r*4+c]=v));else lines.forEach((l,c)=>l.forEach((v,r)=>board[r*4+c]=v));if(board.join(',')!==old){spawn();draw()}}spawn();spawn();draw();window._2048Move=move}
+document.onkeydown=e=>{if(document.getElementById('modal').classList.contains('show')&&window._2048Move){let m={ArrowLeft:'left',ArrowRight:'right',ArrowUp:'up',ArrowDown:'down'}[e.key];if(m){e.preventDefault();window._2048Move(m)}}}
+document.body.style.background=localStorage.juBg||'#0b1020';document.getElementById('avatarFace').textContent=localStorage.juAvatar||'😎';persist();render();
+</script></body></html>
